@@ -147,13 +147,7 @@ class CategoryService {
             if(!$category){
                 throw new \Exception('category not found');
             }
-             //get all books that related with this category to force delete it 
-             $books = Book::onlyTrashed()->where('category_id',$category_id)->get();
-
-             foreach($books as $book){
-                 $book->forceDelete();
-             }
-
+            
             return $category->forceDelete();
         }catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 400);   
         } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('Something went wrong with deleting category', 400);}
